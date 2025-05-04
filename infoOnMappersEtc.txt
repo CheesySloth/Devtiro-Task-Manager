@@ -1,0 +1,63 @@
+com.myapp
+│
+├── controller      → Handles HTTP requests/responses (API layer)
+├── service         → Contains business logic
+├── mapper          → Converts between domain models and DTOs
+├── repository      → Talks to the database
+├── domain/entity   → Represents data (Java classes mapped to DB tables)
+└── dto             → (optional) Safe data structures for communication
+
+📦 Layer-by-Layer Explanation
+1. 🧭 Controller
+
+    Purpose: Handles incoming HTTP requests (like GET /tasks) and returns responses.
+
+    Annotation: @RestController or @Controller
+
+    Typical Actions:
+
+        Accept request parameters or bodies
+
+        Call the service layer
+
+        Return data (often as JSON)
+
+2. ⚙️ Service
+
+    Purpose: Contains the business logic — "what your app does".
+
+    Annotation: @Service
+
+    Typical Actions:
+
+        Perform calculations, checks, or processing
+
+        Coordinate multiple repositories
+
+        Handle application-specific rules
+
+3. 🧱 Repository
+
+    Purpose: Directly interacts with the database (CRUD operations)
+
+    Interface: Extends JpaRepository or CrudRepository
+
+    Annotation: @Repository (optional when extending JpaRepository)
+
+    Spring auto-generates the implementation!
+
+4. 🛠 Mapper
+
+    Purpose: Converts between Entities (used in DB) and DTOs (used in APIs).
+
+    Why? To avoid exposing database models directly to clients.
+
+    Can be hand-written or generated (e.g., with MapStruct).
+
+5. 📄 Domain / Entity
+
+    Purpose: Represents the structure of your data (i.e., what’s in your database).
+
+    Annotation: @Entity
+
+    Used by JPA/Hibernate to map Java objects to database tables.
