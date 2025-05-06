@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TaskListServiceImpl implements TaskListService {
@@ -48,6 +49,7 @@ public class TaskListServiceImpl implements TaskListService {
         return taskListRepository.findById(id);
     }
 
+    @Transactional // Required because multiple calls to repo are made
     @Override
     public TaskList updateTaskList(UUID taskListId, TaskList taskList) {
         if (null == taskList.getId()) {
@@ -65,6 +67,11 @@ public class TaskListServiceImpl implements TaskListService {
         existingTaskList.setDescription(taskList.getDescription());
         existingTaskList.setUpdated(LocalDateTime.now());
         return taskListRepository.save(existingTaskList);
+    }
+
+    @Override
+    public void deleteTaskList(UUID taskListId) {
+        taskListRepository.deleteById(taskListId); // Jpa handles deletion of non-existing entities
     }
 
 }
